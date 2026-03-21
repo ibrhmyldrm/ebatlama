@@ -2,10 +2,12 @@ from flask import Flask, render_template, request, jsonify, send_file
 import json
 import io
 import os
+import threading
+import sys
+import webview  # WebView kütüphanesi eklendi
 from datetime import datetime
 
 app = Flask(__name__)
-
 # ─── Optimizasyon: Guillotine kesim algoritması ───────────────────────────────
 def optimize_cuts(pieces, sheet_w, sheet_h, blade=4):
     """
@@ -407,5 +409,27 @@ def api_import_excel():
         import traceback; traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
+# ─── WebView Başlatıcı ───────────────────────────────────────────────────────
+def run_flask():
+    # Flask sunucusunu sessizce arka planda çalıştırır
+    app.run(host="127.0.0.1", port=5000, debug=False, use_reloader=False)
+
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    # 1. Flask'ı ayrı bir thread üzerinde başlat
+    flask_thread = threading.Thread(target=run_flask)
+    flask_thread.daemon = True
+    flask_thread.start()
+
+    # 2. WebView Penceresini oluştur
+    webview.create_window(
+        'Atölyemhanem v2 — Kesim Programı', 
+        'http://127.0.0.1:5000',
+        width=1280,
+        height=900,
+        resizable=True,
+        min_size=(300, 300)
+    )
+    
+    # 3. Uygulamayı başlat
+    webview.start()
+    sys.exit()

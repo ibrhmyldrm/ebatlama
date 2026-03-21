@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOC<T<YPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
@@ -49,7 +49,13 @@ header p{font-size:.6rem;color:var(--wl);font-family:'DM Mono',monospace;letter-
 .bi-total .bv{color:#E040FB;font-size:1.1rem;}
 
 /* Container */
-.container{max-width:960px;margin:0 auto;padding:10px 10px 60px;}
+.container {
+    max-width: 960px; 
+    width: 100%;       /* Pencere 960px'den küçükse, pencereye uyum sağla */
+    margin: 0 auto; 
+    padding: 10px 10px 60px;
+    box-sizing: border-box; /* Padding'in genişliği bozmasını engeller */
+}
 
 /* Card */
 .card{background:#fff;border-radius:9px;box-shadow:0 2px 10px var(--sh);margin-bottom:10px;
@@ -108,15 +114,26 @@ input:focus,select:focus{outline:none;border-color:var(--wm);background:#fff;box
 .pt input[type=text],.pt input[type=number]{padding:3px 5px;font-size:.79rem;background:transparent;
   border:none;border-radius:3px;width:100%;min-width:0;}
 .pt input:focus{background:#fff;border:1.5px solid var(--wm);}
-.bc{display:flex;gap:2px;flex-wrap:nowrap;}
+/* nowrap yerine wrap yaptık */
+.bc { display: flex; gap: 2px; flex-wrap: wrap; }
 .bcb{display:inline-flex;align-items:center;gap:2px;font-size:.64rem;white-space:nowrap;cursor:pointer;
   background:#FAF7FF;border:1px solid var(--sw);border-radius:3px;padding:2px 4px;user-select:none;}
 .bcb input{accent-color:var(--wm);width:10px;height:10px;cursor:pointer;}
 .bcb:has(input:checked){background:var(--wm);color:#fff;border-color:var(--wm);}
 .db{background:none;border:none;cursor:pointer;color:#ccc;font-size:.95rem;padding:1px 4px;border-radius:3px;line-height:1;}
 .db:hover{color:var(--rd);background:#FFE8EC;}
-.cn{width:26px;text-align:center;} .cnm{min-width:100px;} .cnn{width:72px;} .cb2{width:168px;} .cd{width:22px;}
-
+/* Bu kısım pencerenin daralmasını engelleyen ana yerdir */
+.cn { width: 26px; text-align: center; } 
+.cnm { min-width: 80px; } /* Sabit width yerine min-width yaptık */
+.cnn { width: 10%; min-width: 50px; } /* Yüzdesel ve esnek */
+.cb2 { width: auto; min-width: 120px; } /* Bant kısmını esnettik */
+.cd { width: 22px; }
+/* Bu kodu CSS'in herhangi bir yerine ekleyebilirsin */
+.card-b { 
+    overflow-x: auto; 
+    width: 100%;
+    -webkit-overflow-scrolling: touch; /* Mobil için yumuşak kaydırma */
+}
 /* Buttons */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;border-radius:6px;font-size:.77rem;
   font-weight:700;cursor:pointer;border:none;transition:all .2s;font-family:'Lato',sans-serif;
